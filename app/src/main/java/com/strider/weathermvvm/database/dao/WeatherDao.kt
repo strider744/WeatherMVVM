@@ -1,5 +1,6 @@
 package com.strider.weathermvvm.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.strider.weathermvvm.database.entity.DBWeather
 import kotlinx.coroutines.flow.Flow
@@ -20,25 +21,25 @@ interface WeatherDao {
 
     // query
     @Query("SELECT * FROM weather_table")
-    suspend fun getAllWeather(): Flow<List<DBWeather>>
+    fun getAllWeather(): LiveData<List<DBWeather>>
 
     @Query("SELECT city_id FROM weather_table")
-    suspend fun getAllWeatherIds(): Flow<List<Int>>
+    fun getAllWeatherIds(): LiveData<List<Int>>
 
     @Query("SELECT city_name FROM weather_table")
-    suspend fun getAllCitesNames(): Flow<List<String>>
+    fun getAllCitesNames(): LiveData<List<String>>
 
     @Query("SELECT * FROM weather_table WHERE city_name = :city")
-    suspend fun getWeatherByCity(city: String): Flow<DBWeather>
+    fun getWeatherByCity(city: String): LiveData<DBWeather>
 
     @Query("SELECT * FROM weather_table WHERE city_id = :cityId")
-    suspend fun getWeatherByCityId(cityId: Int): Flow<DBWeather>
+     fun getWeatherByCityId(cityId: Int): LiveData<DBWeather>
 
     @Query("SELECT * FROM weather_table WHERE city_name IN (:list)")
-    suspend fun getWeatherByCitesList(list: List<String>): Flow<List<DBWeather>>
+    fun getWeatherByCitesList(list: List<String>): LiveData<List<DBWeather>>
 
     @Query("SELECT * FROM weather_table WHERE city_id IN (:list)")
-    suspend fun getWeatherByCitesIdsList(list: List<Int>): Flow<List<DBWeather>>
+    fun getWeatherByCitesIdsList(list: List<Int>): LiveData<List<DBWeather>>
 
     // delete
     @Query("DELETE FROM weather_table WHERE city_id = :cityId")

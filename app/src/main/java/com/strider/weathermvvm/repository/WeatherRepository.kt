@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.strider.weathermvvm.data.LocationData
 import com.strider.weathermvvm.data.WeatherData
 import com.strider.weathermvvm.data.WeatherForecastData
+import com.strider.weathermvvm.database.entity.DBWeather
+import com.strider.weathermvvm.database.entity.DBWeatherForecast
 import com.strider.weathermvvm.pagingsource.ApiDataSource
 import com.strider.weathermvvm.pagingsource.LocalDataSource
 import com.strider.weathermvvm.utils.*
@@ -22,7 +24,7 @@ class WeatherRepository
 
     override suspend fun getWeatherByLocation(
         location: LocationData
-    ): LiveData<WeatherData> {
+    ): LiveData<DBWeather> {
         return apiDataSource.getWeather(location)
             .doOnSuccess { response ->
                 startIOThread {
@@ -39,7 +41,7 @@ class WeatherRepository
             }
     }
 
-    override suspend fun searchWeather(query: String): LiveData<WeatherData> {
+    override suspend fun searchWeather(query: String): LiveData<DBWeather> {
         return runOnIOThread {
             apiDataSource.searchWeather(query)
                 .doOnSuccess { response ->
@@ -59,19 +61,19 @@ class WeatherRepository
         }
     }
 
-    override suspend fun getAllWeather(): LiveData<List<WeatherData>> =
+    override suspend fun getAllWeather(): LiveData<List<DBWeather>> =
         runOnIOThread { localDataSource.getAllWeather() }
 
-    override suspend fun getWeatherByCity(name: String): LiveData<WeatherData> =
+    override suspend fun getWeatherByCity(name: String): LiveData<DBWeather> =
         runOnIOThread { localDataSource.getByCity(name) }
 
-    override suspend fun getWeatherByCityId(id: Int): LiveData<WeatherData> =
+    override suspend fun getWeatherByCityId(id: Int): LiveData<DBWeather> =
         runOnIOThread { localDataSource.getByCityId(id) }
 
-    override suspend fun getWeatherByCitesList(list: List<String>): LiveData<List<WeatherData>> =
+    override suspend fun getWeatherByCitesList(list: List<String>): LiveData<List<DBWeather>> =
         localDataSource.getWeatherByCitesList(list)
 
-    override suspend fun getWeatherByCitesIdsList(list: List<Int>): LiveData<List<WeatherData>> =
+    override suspend fun getWeatherByCitesIdsList(list: List<Int>): LiveData<List<DBWeather>> =
         localDataSource.getWeatherByCitesIdsList(list)
 
     override suspend fun getAllWeatherIds(): LiveData<List<Int>> =
@@ -95,7 +97,7 @@ class WeatherRepository
 
     override suspend fun getForecastWeather(
         cityId: Int
-    ): LiveData<List<WeatherForecastData>> {
+    ): LiveData<List<DBWeatherForecast>> {
         return apiDataSource.getWeatherForecast(cityId)
             .doOnSuccess { response ->
                 startIOThread {
@@ -112,23 +114,23 @@ class WeatherRepository
             }
     }
 
-    override suspend fun getAllForecastWeather(): LiveData<List<WeatherForecastData>> {
+    override suspend fun getAllForecastWeather(): LiveData<List<DBWeatherForecast>> {
         return localDataSource.getAllForecastWeather()
     }
 
-    override suspend fun getForecastByCity(name: String): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCity(name: String): LiveData<List<DBWeatherForecast>> {
         return localDataSource.getForecastByCity(name)
     }
 
-    override suspend fun getForecastByCityId(id: Int): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCityId(id: Int): LiveData<List<DBWeatherForecast>> {
         return localDataSource.getForecastByCityId(id)
     }
 
-    override suspend fun getForecastByCitesList(list: List<String>): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCitesList(list: List<String>): LiveData<List<DBWeatherForecast>> {
         return localDataSource.getForecastByCitesList(list)
     }
 
-    override suspend fun getForecastByCitesIdsList(list: List<Int>): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCitesIdsList(list: List<Int>): LiveData<List<DBWeatherForecast>> {
         return localDataSource.getForecastByCitesIdsList(list)
     }
 

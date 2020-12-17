@@ -5,6 +5,8 @@ import androidx.lifecycle.map
 import com.strider.weathermvvm.data.WeatherData
 import com.strider.weathermvvm.data.WeatherForecastData
 import com.strider.weathermvvm.database.WeatherDatabase
+import com.strider.weathermvvm.database.entity.DBWeather
+import com.strider.weathermvvm.database.entity.DBWeatherForecast
 import com.strider.weathermvvm.mapper.ForecastMapper
 import com.strider.weathermvvm.mapper.WeatherMapper
 import com.strider.weathermvvm.network.api.WeatherApiData
@@ -28,10 +30,8 @@ class LocalDataSource
         database.weatherDao.insertWeatherList(weatherMapper.mapListToEntity(list))
     }
 
-    override suspend fun getAllWeather(): LiveData<List<WeatherData>> {
-        return database.weatherDao.getAllWeather().map { list ->
-            weatherMapper.mapListFromEntity(list)
-        }
+    override suspend fun getAllWeather(): LiveData<List<DBWeather>> {
+        return database.weatherDao.getAllWeather()
     }
 
     override suspend fun getAllWeatherIds(): LiveData<List<Int>> {
@@ -42,23 +42,20 @@ class LocalDataSource
         return database.weatherDao.getAllCitesNames()
     }
 
-    override suspend fun getByCity(city: String): LiveData<WeatherData> {
+    override suspend fun getByCity(city: String): LiveData<DBWeather> {
         return database.weatherDao.getWeatherByCity(city)
-            .map { weatherMapper.mapFromEntity(it) }
     }
 
-    override suspend fun getByCityId(cityId: Int): LiveData<WeatherData> {
+    override suspend fun getByCityId(cityId: Int): LiveData<DBWeather> {
         return database.weatherDao.getWeatherByCityId(cityId)
-            .map { weatherMapper.mapFromEntity(it) }
     }
 
-    override suspend fun getWeatherByCitesList(list: List<String>): LiveData<List<WeatherData>> {
-        return database.weatherDao.getWeatherByCitesList(list).map { weatherMapper.mapListFromEntity(it) }
+    override suspend fun getWeatherByCitesList(list: List<String>): LiveData<List<DBWeather>> {
+        return database.weatherDao.getWeatherByCitesList(list)
     }
 
-    override suspend fun getWeatherByCitesIdsList(list: List<Int>): LiveData<List<WeatherData>> {
+    override suspend fun getWeatherByCitesIdsList(list: List<Int>): LiveData<List<DBWeather>> {
         return database.weatherDao.getWeatherByCitesIdsList(list)
-            .map { weatherMapper.mapListFromEntity(it) }
     }
 
     override suspend fun deleteWeatherByCityId(id: Int): Int {
@@ -83,9 +80,8 @@ class LocalDataSource
         }
     }
 
-    override suspend fun getAllForecastWeather(): LiveData<List<WeatherForecastData>> {
+    override suspend fun getAllForecastWeather(): LiveData<List<DBWeatherForecast>> {
         return database.forecastWeatherDao.getAllForecastWeather()
-            .map { forecastMapper.mapListFromEntity(it) }
     }
 
     override suspend fun getAllForecastCitesIds(): LiveData<List<Int>> {
@@ -96,24 +92,20 @@ class LocalDataSource
         return database.forecastWeatherDao.getAllForecastCitesNames()
     }
 
-    override suspend fun getForecastByCity(city: String): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCity(city: String): LiveData<List<DBWeatherForecast>> {
         return database.forecastWeatherDao.getForecastByCity(city)
-                .map { forecastMapper.mapListFromEntity(it) }
     }
 
-    override suspend fun getForecastByCityId(cityId: Int): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCityId(cityId: Int): LiveData<List<DBWeatherForecast>> {
         return database.forecastWeatherDao.getForecastByCityId(cityId)
-                .map { forecastMapper.mapListFromEntity(it) }
     }
 
-    override suspend fun getForecastByCitesList(list: List<String>): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCitesList(list: List<String>): LiveData<List<DBWeatherForecast>> {
         return database.forecastWeatherDao.getForecastByCitesList(list)
-                .map {forecastMapper.mapListFromEntity(it) }
     }
 
-    override suspend fun getForecastByCitesIdsList(list: List<Int>): LiveData<List<WeatherForecastData>> {
+    override suspend fun getForecastByCitesIdsList(list: List<Int>): LiveData<List<DBWeatherForecast>> {
         return database.forecastWeatherDao.getForecastByCityIds(list)
-            .map { forecastMapper.mapListFromEntity(it) }
     }
 
     override suspend fun deleteForecastWeatherByCityId(id: Int): Int {

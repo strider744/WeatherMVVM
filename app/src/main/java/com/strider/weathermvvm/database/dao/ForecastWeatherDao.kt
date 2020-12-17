@@ -1,5 +1,6 @@
 package com.strider.weathermvvm.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -22,25 +23,25 @@ interface ForecastWeatherDao {
 
     // query
     @Query("SELECT * FROM weather_forecast")
-    suspend fun getAllForecastWeather(): Flow<List<DBWeatherForecast>>
+    fun getAllForecastWeather(): LiveData<List<DBWeatherForecast>>
 
     @Query("SELECT cityId FROM weather_forecast")
-    suspend fun getAllForecastCitesIds(): Flow<List<Int>>
+    fun getAllForecastCitesIds(): LiveData<List<Int>>
 
     @Query("SELECT name FROM weather_forecast")
-    suspend fun getAllForecastCitesNames(): Flow<List<String>>
+    fun getAllForecastCitesNames(): LiveData<List<String>>
 
     @Query("SELECT * FROM weather_forecast WHERE name = :city")
-    suspend fun getForecastByCity(city: String): Flow<List<DBWeatherForecast>>
+    fun getForecastByCity(city: String): LiveData<List<DBWeatherForecast>>
 
     @Query("SELECT * FROM weather_forecast WHERE name IN (:list)")
-    suspend fun getForecastByCitesList(list: List<String>): Flow<List<DBWeatherForecast>>
+    fun getForecastByCitesList(list: List<String>): LiveData<List<DBWeatherForecast>>
 
     @Query("SELECT * FROM weather_forecast WHERE cityId IN (:list)")
-    suspend fun getForecastByCityIds(list: List<Int>): Flow<List<DBWeatherForecast>>
+    fun getForecastByCityIds(list: List<Int>): LiveData<List<DBWeatherForecast>>
 
     @Query("SELECT * FROM weather_forecast WHERE cityId = :cityId")
-    suspend fun getForecastByCityId(cityId: Int): Flow<List<DBWeatherForecast>>
+    fun getForecastByCityId(cityId: Int): LiveData<List<DBWeatherForecast>>
 
     // delete
     @Query("DELETE FROM weather_forecast WHERE cityId = :cityId")

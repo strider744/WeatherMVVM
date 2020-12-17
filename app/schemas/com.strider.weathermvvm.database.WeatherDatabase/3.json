@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "5ab17434f3c7ab182cb49d9517d8f733",
+    "identityHash": "c4ec7a0a03d374955e83ae7b15d2ee0f",
     "entities": [
       {
         "tableName": "weather_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` INTEGER NOT NULL, `description` TEXT NOT NULL, `cityId` INTEGER NOT NULL, `name` TEXT NOT NULL, `country` TEXT NOT NULL, `speed` REAL NOT NULL, `deg` INTEGER NOT NULL, `temp` REAL NOT NULL, `feelsLike` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `city_id` INTEGER NOT NULL, `city_name` TEXT NOT NULL, `time` INTEGER NOT NULL, `weather_details` TEXT NOT NULL, `speed` REAL NOT NULL, `deg` INTEGER NOT NULL, `temp` REAL NOT NULL, `feelsLike` REAL NOT NULL, `pressure` INTEGER NOT NULL, `humidity` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,32 +15,26 @@
             "notNull": true
           },
           {
+            "fieldPath": "cityId",
+            "columnName": "city_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityName",
+            "columnName": "city_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "date",
-            "columnName": "date",
+            "columnName": "time",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "descriptions",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "city.cityId",
-            "columnName": "cityId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "city.name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "city.country",
-            "columnName": "country",
+            "columnName": "weather_details",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -180,7 +174,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ab17434f3c7ab182cb49d9517d8f733')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c4ec7a0a03d374955e83ae7b15d2ee0f')"
     ]
   }
 }
